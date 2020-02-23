@@ -1,7 +1,14 @@
 {
   "name": "boring-cypress",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "babel": {
+    "presets": [
+      "@babel/react"
+    ]
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -10,11 +17,15 @@
     "react-dom": "^16.12.0",
     "react-scripts": "3.4.0"
   },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4"
+  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build:prod": "rm -rf dist && mkdir dist && npx babel src/BoringCypress --out-dir dist --copy-files"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leandrotk/boring-cypress"
   },
   "eslintConfig": {
     "extends": "react-app"
