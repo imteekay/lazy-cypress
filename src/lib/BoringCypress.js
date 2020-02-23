@@ -1,10 +1,8 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { start, clean, copy, addFormSubmitListener } from './listeners';
 
 export const BoringCypress = () => {
-  useEffect(() => {
-    addFormSubmitListener();
-  }, []);
+  addFormSubmitListener();
 
   return (
     <Fragment>
