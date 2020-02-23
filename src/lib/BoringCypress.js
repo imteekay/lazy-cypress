@@ -26,7 +26,7 @@ export const BoringCypress = () => {
       >
         <span
           role="img"
-          aria-label="start recording"
+          aria-label="clean recording"
         >
           ⏹
         </span>
@@ -38,7 +38,7 @@ export const BoringCypress = () => {
       >
         <span
           role="img"
-          aria-label="start recording"
+          aria-label="copy recording"
         >
           📋
         </span>
