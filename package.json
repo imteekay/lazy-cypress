@@ -2,8 +2,12 @@
   "name": "boring-cypress",
   "version": "0.1.0",
   "private": false,
-  "main": "dist/index.js",
-  "module": "dist/index.js",
+  "main": "dist/BoringCypress.js",
+  "module": "dist/BoringCypress.js",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "babel": {
     "presets": [
       "@babel/react"
@@ -21,7 +25,10 @@
     "@babel/cli": "^7.8.4"
   },
   "scripts": {
-    "build:prod": "rm -rf dist && mkdir dist && npx babel src/BoringCypress --out-dir dist --copy-files"
+    "start": "react-scripts start",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "build": "rm -rf dist && NODE_ENV=production npx babel src/lib --out-dir dist --copy-files"
   },
   "repository": {
     "type": "git",
