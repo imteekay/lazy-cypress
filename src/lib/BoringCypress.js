@@ -12,21 +12,36 @@ export const BoringCypress = () => {
         id="cypress-start"
         onClick={start}
       >
-        ⏺
+        <span
+          role="img"
+          aria-label="start recording"
+        >
+          ⏺
+        </span>
       </button>
 
       <button
         id="cypress-clean"
         onClick={clean}
       >
-        ⏹
+        <span
+          role="img"
+          aria-label="start recording"
+        >
+          ⏹
+        </span>
       </button>
 
       <button
         id="cypress-copy"
         onClick={copy}
       >
-        📋
+        <span
+          role="img"
+          aria-label="start recording"
+        >
+          📋
+        </span>
       </button>
     </Fragment>
   )
