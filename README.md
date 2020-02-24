@@ -6,4 +6,4 @@ This project was inspired by [Akira Matsuda's heavens_door](https://github.com/a
 
 ## Demo
 
-![Boring Cypress Demo](assets/boring-cypress.gif)
+![Boring Cypress Demo](https://github.com/leandrotk/boring-cypress/blob/master/assets/boring-cypress.gif)

@@ -29,7 +29,8 @@
     "start": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build": "rm -rf dist && NODE_ENV=production npx babel src/lib --out-dir dist --copy-files"
+    "build": "rm -rf dist && NODE_ENV=production npx babel src/lib --out-dir dist --copy-files",
+    "publish": "npm run build && npm publish"
   },
   "repository": {
     "type": "git",
