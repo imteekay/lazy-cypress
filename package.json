@@ -6,7 +6,8 @@
   "module": "dist/BoringCypress.js",
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "babel": {
     "presets": [
