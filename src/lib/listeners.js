@@ -2,8 +2,8 @@ import { updateFormSessionStorage } from './handlers';
 
 export const start = () => {
   if (!sessionStorage.boringCypress) {
-    sessionStorage.boringCypress = `  describe('[TODO] add a description here', () => {
-    cy.visit('${window.location.pathname}');\n\n`;
+    sessionStorage.boringCypress = `describe('[TODO] add a description here', () => {
+  cy.visit('${window.location.pathname}');\n\n`;
   }
 };
 

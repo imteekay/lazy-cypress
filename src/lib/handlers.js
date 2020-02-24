@@ -17,71 +17,76 @@ const generateTest = ({ field, attribute, attributeValue }) => {
   const formField = getFormField({ field, attribute, attributeValue });
 
   return {
-    forInput: (userValue) => `    cy.get(${formField}).type('${userValue}');\n`,
-    forRadioButton: () => `    cy.get(${formField}).click();\n`,
-    forCheckbox: () => `    cy.get(${formField}).click();\n`,
-    forSelect: (option) => `    cy.get(${formField}).select('${option}');\n`,
-    forSubmitButton: () => `    cy.get(${formField}).click();\n`,
+    forInput: (userValue) => `  cy.get(${formField}).type('${userValue}');\n`,
+    forRadioButton: () => `  cy.get(${formField}).click();\n`,
+    forCheckbox: () => `  cy.get(${formField}).click();\n`,
+    forSelect: (option) => `  cy.get(${formField}).select('${option}');\n`,
+    forSubmitButton: () => `  cy.get(${formField}).click();\n`,
   }
 };
 
 const updateInput = (field) => {
   const attribute = 'name';
   const attributeValue = field.name;
-
-  sessionStorage.boringCypress += generateTest({
+  const fieldProperties = {
     field,
     attribute,
     attributeValue
-  }).forInput(field.value);
+  };
+
+  sessionStorage.boringCypress += generateTest(fieldProperties).forInput(field.value);
 };
 
 const updateRadioButton = (field) => {
   const fieldLabel = document.querySelector(`label[for="${field.id}"]`);
   const attribute = 'for';
   const attributeValue = fieldLabel.getAttribute('for');
-
-  sessionStorage.boringCypress += generateTest({
+  const fieldProperties = {
     field: fieldLabel,
     attribute,
     attributeValue
-  }).forRadioButton();
+  };
+
+  sessionStorage.boringCypress += generateTest(fieldProperties).forRadioButton();
 };
 
 const updateCheckbox = (field) => {
   const fieldLabel = document.querySelector(`label[for="${field.id}"]`);
   const attribute = 'for';
   const attributeValue = fieldLabel.getAttribute('for');
-
-  sessionStorage.boringCypress += generateTest({
+  const fieldProperties = {
     field: fieldLabel,
     attribute,
     attributeValue
-  }).forCheckbox();
+  };
+
+  sessionStorage.boringCypress += generateTest(fieldProperties).forCheckbox();
 };
 
 const updateSelect = (field) => {
   const attribute = 'name';
   const attributeValue = field.name;
   const selectOption = field[field.selectedIndex].text;
-
-  sessionStorage.boringCypress += generateTest({
+  const fieldProperties = {
     field,
     attribute,
     attributeValue
-  }).forSelect(selectOption);
+  };
+
+  sessionStorage.boringCypress += generateTest(fieldProperties).forSelect(selectOption);
 };
 
 const updateSubmitButton = (form) => {
   const field = form.querySelector('input[type=submit]') || form.querySelector('button');
   const attribute = 'data-testid';
   const attributeValue = 'submit-button';
-
-  sessionStorage.boringCypress += generateTest({
+  const fieldProperties = {
     field,
     attribute,
     attributeValue
-  }).forSubmitButton();
+  };
+
+  sessionStorage.boringCypress += generateTest(fieldProperties).forSubmitButton();
 };
 
 const updateEachField = (field) => {
@@ -103,6 +108,6 @@ export const updateFormSessionStorage = (form) => () => {
     formFields.forEach(updateEachField);
     updateSubmitButton(form);
 
-    sessionStorage.boringCypress += '  });';
+    sessionStorage.boringCypress += '});';
   }
 };
