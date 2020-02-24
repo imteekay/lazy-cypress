@@ -10,7 +10,8 @@
   ],
   "babel": {
     "presets": [
-      "@babel/react"
+      "@babel/react",
+      "@babel/preset-env"
     ]
   },
   "dependencies": {
