@@ -17,11 +17,11 @@ const generateTest = ({ field, attribute, attributeValue }) => {
   const formField = getFormField({ field, attribute, attributeValue });
 
   return {
-    forInput: (userValue) => `  cy.get(${formField}).type('${userValue}');\n`,
-    forRadioButton: () => `  cy.get(${formField}).click();\n`,
-    forCheckbox: () => `  cy.get(${formField}).click();\n`,
-    forSelect: (option) => `  cy.get(${formField}).select('${option}');\n`,
-    forSubmitButton: () => `  cy.get(${formField}).click();\n`,
+    forInput: (userValue) => `  cy.get('${formField}').type('${userValue}');\n`,
+    forRadioButton: () => `  cy.get('${formField}').click();\n`,
+    forCheckbox: () => `  cy.get('${formField}').click();\n`,
+    forSelect: (option) => `  cy.get('${formField}').select('${option}');\n`,
+    forSubmitButton: () => `  cy.get('${formField}').click();\n`,
   }
 };
 
@@ -101,8 +101,16 @@ const updateEachField = (field) => {
   }
 };
 
-export const updateFormSessionStorage = (form) => () => {
+export const updateFormSessionStorage = (form) => (event) => {
   if (sessionStorage.boringCypress) {
+    const hasRemainingTest = sessionStorage.boringCypress.includes('});');
+
+    if (hasRemainingTest) {
+      event.preventDefault();
+      alert('You should clean your recording.');
+      return;
+    }
+
     const formFields = getFormFields(form);
 
     formFields.forEach(updateEachField);
