@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { start, clean, copy, addFormSubmitListener } from './listeners';
 
-export const BoringCypress = () => {
+export const LazyCypress = () => {
   addFormSubmitListener();
 
   return (

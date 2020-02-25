@@ -1,10 +1,10 @@
 import React from 'react';
 import { Form } from './Form';
-import { BoringCypress } from '../lib/BoringCypress';
+import { LazyCypress } from '../lib/LazyCypress';
 
 export const App = () => (
   <div className="App">
-    <BoringCypress />
+    <LazyCypress />
     <Form />
   </div>
 );
