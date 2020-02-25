@@ -34,7 +34,7 @@ const updateInput = (field) => {
     attributeValue
   };
 
-  sessionStorage.boringCypress += generateTest(fieldProperties).forInput(field.value);
+  sessionStorage.lazyCypress += generateTest(fieldProperties).forInput(field.value);
 };
 
 const updateRadioButton = (field) => {
@@ -47,7 +47,7 @@ const updateRadioButton = (field) => {
     attributeValue
   };
 
-  sessionStorage.boringCypress += generateTest(fieldProperties).forRadioButton();
+  sessionStorage.lazyCypress += generateTest(fieldProperties).forRadioButton();
 };
 
 const updateCheckbox = (field) => {
@@ -60,7 +60,7 @@ const updateCheckbox = (field) => {
     attributeValue
   };
 
-  sessionStorage.boringCypress += generateTest(fieldProperties).forCheckbox();
+  sessionStorage.lazyCypress += generateTest(fieldProperties).forCheckbox();
 };
 
 const updateSelect = (field) => {
@@ -73,7 +73,7 @@ const updateSelect = (field) => {
     attributeValue
   };
 
-  sessionStorage.boringCypress += generateTest(fieldProperties).forSelect(selectOption);
+  sessionStorage.lazyCypress += generateTest(fieldProperties).forSelect(selectOption);
 };
 
 const updateSubmitButton = (form) => {
@@ -86,7 +86,7 @@ const updateSubmitButton = (form) => {
     attributeValue
   };
 
-  sessionStorage.boringCypress += generateTest(fieldProperties).forSubmitButton();
+  sessionStorage.lazyCypress += generateTest(fieldProperties).forSubmitButton();
 };
 
 const updateEachField = (field) => {
@@ -102,8 +102,8 @@ const updateEachField = (field) => {
 };
 
 export const updateFormSessionStorage = (form) => (event) => {
-  if (sessionStorage.boringCypress) {
-    const hasRemainingTest = sessionStorage.boringCypress.includes('});');
+  if (sessionStorage.lazyCypress) {
+    const hasRemainingTest = sessionStorage.lazyCypress.includes('});');
 
     if (hasRemainingTest) {
       event.preventDefault();
@@ -116,6 +116,6 @@ export const updateFormSessionStorage = (form) => (event) => {
     formFields.forEach(updateEachField);
     updateSubmitButton(form);
 
-    sessionStorage.boringCypress += '});';
+    sessionStorage.lazyCypress += '});';
   }
 };

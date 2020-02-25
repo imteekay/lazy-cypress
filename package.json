@@ -1,9 +1,9 @@
 {
-  "name": "boring-cypress",
+  "name": "lazy-cypress",
   "version": "0.2.0",
   "private": false,
-  "main": "dist/BoringCypress.js",
-  "module": "dist/BoringCypress.js",
+  "main": "dist/LazyCypress.js",
+  "module": "dist/LazyCypress.js",
   "files": [
     "dist",
     "README.md",
@@ -35,9 +35,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/leandrotk/boring-cypress"
+    "url": "https://github.com/leandrotk/lazy-cypress"
   },
-  "homepage": "https://github.com/leandrotk/boring-cypress",
+  "homepage": "https://github.com/leandrotk/lazy-cypress",
   "eslintConfig": {
     "extends": "react-app"
   },
