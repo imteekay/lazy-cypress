@@ -1,6 +1,6 @@
 {
   "name": "lazy-cypress",
-  "version": "0.2.0",
+  "version": "0.1.0",
   "private": false,
   "main": "dist/LazyCypress.js",
   "module": "dist/LazyCypress.js",
