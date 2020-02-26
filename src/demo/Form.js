@@ -6,13 +6,18 @@ export const Form = () => (
 
     <form>
       <div>
-        <label>Nome:</label>
+        <label>Name:</label>
         <input id="name" name="name" placeholder="Ex: TK" />
       </div>
 
       <div>
-        <label>Idade:</label>
+        <label>Age:</label>
         <input id="age" name="age" type="number" />
+      </div>
+
+      <div>
+        <label>Birthday:</label>
+        <input id="birthday" name="birthday" type="date" />
       </div>
 
       <div>
