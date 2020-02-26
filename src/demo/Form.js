@@ -48,7 +48,7 @@ export const Form = () => (
 
       <div>
         <label>Favorite city?</label>
-        <select id="favcity" name="select">
+        <select id="favcity" name="favcity">
           <option value="1">Amsterdam</option>
           <option value="2">Hong Kong</option>
           <option value="3">London</option>
@@ -56,6 +56,20 @@ export const Form = () => (
           <option value="5">Sao Paulo</option>
           <option value="6">Tokyo</option>
         </select>
+      </div>
+
+      <div>
+        <label>Countries you want to visit</label>
+        <div>
+          <select id="countries" name="countries" multiple>
+            <option value="Brazil">Brazil</option>
+            <option value="Japan">Japan</option>
+            <option value="New Zealand">Italy</option>
+            <option value="Germany">Germany</option>
+            <option value="India">India</option>
+            <option value="Netherlands">Netherlands</option>
+          </select>
+        </div>
       </div>
 
       <button
