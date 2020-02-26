@@ -2,7 +2,7 @@ import { get } from './helpers';
 
 const getFormFields = (form) => [...form.querySelectorAll('input,textarea,select')];
 
-const fieldTypes = ['text', 'textarea', 'search', 'number', 'email', 'url', 'password', 'tel'];
+const fieldTypes = ['text', 'textarea', 'search', 'number', 'email', 'url', 'password', 'tel', 'date'];
 
 const getFormField = ({ field, attribute, attributeValue }) => {
   const fieldName = field.tagName.toLowerCase();
