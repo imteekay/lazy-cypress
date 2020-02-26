@@ -4,6 +4,8 @@ const getFormFields = (form) => [...form.querySelectorAll('input,textarea,select
 
 const fieldTypes = ['text', 'textarea', 'search', 'number', 'email', 'url', 'password', 'tel', 'date'];
 
+const getSelectedOptionsValues = (field) => [...field.selectedOptions].map((option) => option.value);
+
 const getFormField = ({ field, attribute, attributeValue }) => {
   const fieldName = field.tagName.toLowerCase();
   const formField = get(fieldName)
@@ -21,6 +23,7 @@ const generateTest = ({ field, attribute, attributeValue }) => {
     forRadioButton: () => `  cy.get('${formField}').click();\n`,
     forCheckbox: () => `  cy.get('${formField}').click();\n`,
     forSelect: (option) => `  cy.get('${formField}').select('${option}');\n`,
+    forMutipleSelect: (options) => `  cy.get('${formField}').select(${options});\n`,
     forSubmitButton: () => `  cy.get('${formField}').click();\n`,
   }
 };
@@ -76,6 +79,20 @@ const updateSelect = (field) => {
   sessionStorage.lazyCypress += generateTest(fieldProperties).forSelect(selectOption);
 };
 
+const updateMutipleSelect = (field) => {
+  const attribute = 'name';
+  const attributeValue = field.name;
+  const selectedOptions = getSelectedOptionsValues(field);
+  const stringifiedSelectedOptions = JSON.stringify(selectedOptions);
+  const fieldProperties = {
+    field,
+    attribute,
+    attributeValue
+  };
+
+  sessionStorage.lazyCypress += generateTest(fieldProperties).forMutipleSelect(stringifiedSelectedOptions);
+};
+
 const updateSubmitButton = (form) => {
   const field = form.querySelector('input[type=submit]') || form.querySelector('button');
   const attribute = 'data-testid';
@@ -98,6 +115,8 @@ const updateEachField = (field) => {
     updateCheckbox(field);
   } else if (field.type === 'select-one') {
     updateSelect(field);
+  } else if (field.type === 'select-multiple') {
+    updateMutipleSelect(field);
   }
 };
 
