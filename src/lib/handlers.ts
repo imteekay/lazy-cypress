@@ -29,9 +29,20 @@ enum FieldAttributes {
   TestId = 'data-testid'
 };
 
-const getFormFields = (form: HTMLFormElement): HTMLFormElement[] => [...form.querySelectorAll<HTMLFormElement>('input,textarea,select')];
+const getFormFields = (form: HTMLFormElement): HTMLFormElement[] =>
+  [...form.querySelectorAll<HTMLFormElement>('input,textarea,select')];
 
-const fieldTypes: string[] = ['text', 'textarea', 'search', 'number', 'email', 'url', 'password', 'tel', 'date'];
+const fieldTypes: string[] = [
+  'text',
+  'textarea',
+  'search',
+  'number',
+  'email',
+  'url',
+  'password',
+  'tel',
+  'date'
+];
 
 const getSelectedOptionsValues = (field: HTMLFormElement): string[] =>
   [...field.selectedOptions].map((option: HTMLOptionElement) => option.value);
