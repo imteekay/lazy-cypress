@@ -25,8 +25,8 @@ export const copy = (): void => {
 
 export const addFormSubmitListener = (): void => {
   document.addEventListener('DOMContentLoaded', () => {
-    const formElements: HTMLCollection = document.getElementsByTagName('form');
-    const forms: Element[] = [...formElements];
-    forms.forEach((form) => form.addEventListener('submit', updateFormSessionStorage(form)));
+    const formElements: HTMLCollectionOf<HTMLFormElement> = document.getElementsByTagName('form');
+    const forms: HTMLFormElement[] = [...formElements];
+    forms.forEach((form: HTMLFormElement) => form.addEventListener('submit', updateFormSessionStorage(form)));
   });
 };

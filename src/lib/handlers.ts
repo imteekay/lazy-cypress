@@ -1,13 +1,45 @@
 import { get } from './helpers';
 
-const getFormFields = (form) => [...form.querySelectorAll('input,textarea,select')];
+type FieldPropertiesType = {
+  field: HTMLFormElement;
+  attribute: string;
+  attributeValue: string;
+};
 
-const fieldTypes = ['text', 'textarea', 'search', 'number', 'email', 'url', 'password', 'tel', 'date'];
+type CheckFieldPropertiesType = {
+  field: HTMLFormElement;
+  attribute: string;
+  attributeValue: string | null;
+};
 
-const getSelectedOptionsValues = (field) => [...field.selectedOptions].map((option) => option.value);
+type ButtonFieldPropertiesType = {
+  field: FieldButtonType;
+  attribute: string;
+  attributeValue: string;
+};
 
-const getFormField = ({ field, attribute, attributeValue }) => {
-  const fieldName = field.tagName.toLowerCase();
+type FormFieldProperties = FieldPropertiesType | CheckFieldPropertiesType | ButtonFieldPropertiesType;
+type FieldLabelType = HTMLFormElement | null;
+type FieldButtonType = HTMLButtonElement | null;
+type FormFieldType = string | null;
+
+enum FieldAttributes {
+  Name = 'name',
+  For = 'for',
+  TestId = 'data-testid'
+};
+
+const getFormFields = (form: HTMLFormElement): HTMLFormElement[] => [...form.querySelectorAll<HTMLFormElement>('input,textarea,select')];
+
+const fieldTypes: string[] = ['text', 'textarea', 'search', 'number', 'email', 'url', 'password', 'tel', 'date'];
+
+const getSelectedOptionsValues = (field: HTMLFormElement): string[] =>
+  [...field.selectedOptions].map((option: HTMLOptionElement) => option.value);
+
+const getFormField = ({ field, attribute, attributeValue }: FormFieldProperties): FormFieldType => {
+  if (field == null || attributeValue == null) return null;
+
+  const fieldName: string = field.tagName.toLowerCase();
   const formField = get(fieldName)
     .withAttribute(attribute)
     .andValue(attributeValue);
@@ -15,23 +47,34 @@ const getFormField = ({ field, attribute, attributeValue }) => {
   return formField;
 }
 
-const generateTest = ({ field, attribute, attributeValue }) => {
-  const formField = getFormField({ field, attribute, attributeValue });
+const generateTest = (formFieldProperties: FormFieldProperties) => {
+  const formField: FormFieldType = getFormField(formFieldProperties);
+
+  if (formField == null) {
+    return {
+      forInput: (_: string): string => '',
+      forRadioButton: (): string => '',
+      forCheckbox: (): string => '',
+      forSelect: (_: string): string => '',
+      forMutipleSelect: (_: string): string => '',
+      forSubmitButton: (): string => ''
+    };
+  }
 
   return {
-    forInput: (userValue) => `  cy.get('${formField}').type('${userValue}');\n`,
-    forRadioButton: () => `  cy.get('${formField}').click();\n`,
-    forCheckbox: () => `  cy.get('${formField}').click();\n`,
-    forSelect: (option) => `  cy.get('${formField}').select('${option}');\n`,
-    forMutipleSelect: (options) => `  cy.get('${formField}').select(${options});\n`,
-    forSubmitButton: () => `  cy.get('${formField}').click();\n`,
+    forInput: (userValue: string): string => `  cy.get('${formField}').type('${userValue}');\n`,
+    forRadioButton: (): string => `  cy.get('${formField}').click();\n`,
+    forCheckbox: (): string => `  cy.get('${formField}').click();\n`,
+    forSelect: (option: string): string => `  cy.get('${formField}').select('${option}');\n`,
+    forMutipleSelect: (options: string): string => `  cy.get('${formField}').select(${options});\n`,
+    forSubmitButton: (): string => `  cy.get('${formField}').click();\n`
   }
 };
 
-const updateInput = (field) => {
-  const attribute = 'name';
-  const attributeValue = field.name;
-  const fieldProperties = {
+const updateInput = (field: HTMLFormElement): void => {
+  const attribute: string = FieldAttributes.Name;
+  const attributeValue: string = field.name;
+  const fieldProperties: FieldPropertiesType = {
     field,
     attribute,
     attributeValue
@@ -40,11 +83,14 @@ const updateInput = (field) => {
   sessionStorage.lazyCypress += generateTest(fieldProperties).forInput(field.value);
 };
 
-const updateRadioButton = (field) => {
-  const fieldLabel = document.querySelector(`label[for="${field.id}"]`);
-  const attribute = 'for';
-  const attributeValue = fieldLabel.getAttribute('for');
-  const fieldProperties = {
+const updateRadioButton = (field: HTMLFormElement): void => {
+  const fieldLabel: FieldLabelType = document.querySelector(`label[for="${field.id}"]`);
+
+  if (fieldLabel == null) return;
+
+  const attribute: string = FieldAttributes.For;
+  const attributeValue: string | null = fieldLabel.getAttribute('for');
+  const fieldProperties: CheckFieldPropertiesType = {
     field: fieldLabel,
     attribute,
     attributeValue
@@ -53,11 +99,14 @@ const updateRadioButton = (field) => {
   sessionStorage.lazyCypress += generateTest(fieldProperties).forRadioButton();
 };
 
-const updateCheckbox = (field) => {
-  const fieldLabel = document.querySelector(`label[for="${field.id}"]`);
-  const attribute = 'for';
-  const attributeValue = fieldLabel.getAttribute('for');
-  const fieldProperties = {
+const updateCheckbox = (field: HTMLFormElement): void => {
+  const fieldLabel: FieldLabelType = document.querySelector(`label[for="${field.id}"]`);
+
+  if (fieldLabel == null) return;
+
+  const attribute: string = FieldAttributes.For;
+  const attributeValue: string | null = fieldLabel.getAttribute('for');
+  const fieldProperties: CheckFieldPropertiesType = {
     field: fieldLabel,
     attribute,
     attributeValue
@@ -66,38 +115,44 @@ const updateCheckbox = (field) => {
   sessionStorage.lazyCypress += generateTest(fieldProperties).forCheckbox();
 };
 
-const updateSelect = (field) => {
-  const attribute = 'name';
-  const attributeValue = field.name;
-  const selectOption = field[field.selectedIndex].text;
-  const fieldProperties = {
+const updateSelect = (field: HTMLFormElement): void => {
+  const attribute: string = FieldAttributes.Name;
+  const attributeValue: string = field.name;
+  const selectOption: HTMLFormElement = field[field.selectedIndex] as HTMLFormElement;
+  const selectOptionTest: string = selectOption.text;
+  const fieldProperties: FieldPropertiesType = {
     field,
     attribute,
     attributeValue
   };
 
-  sessionStorage.lazyCypress += generateTest(fieldProperties).forSelect(selectOption);
+  sessionStorage.lazyCypress += generateTest(fieldProperties)
+    .forSelect(selectOptionTest);
 };
 
-const updateMutipleSelect = (field) => {
-  const attribute = 'name';
-  const attributeValue = field.name;
-  const selectedOptions = getSelectedOptionsValues(field);
-  const stringifiedSelectedOptions = JSON.stringify(selectedOptions);
-  const fieldProperties = {
+const updateMutipleSelect = (field: HTMLFormElement): void => {
+  const attribute: string = FieldAttributes.Name;
+  const attributeValue: string = field.name;
+  const selectedOptions: string[] = getSelectedOptionsValues(field);
+  const stringifiedSelectedOptions: string = JSON.stringify(selectedOptions);
+  const fieldProperties: FieldPropertiesType = {
     field,
     attribute,
     attributeValue
   };
 
-  sessionStorage.lazyCypress += generateTest(fieldProperties).forMutipleSelect(stringifiedSelectedOptions);
+  sessionStorage.lazyCypress += generateTest(fieldProperties)
+    .forMutipleSelect(stringifiedSelectedOptions);
 };
 
-const updateSubmitButton = (form) => {
-  const field = form.querySelector('input[type=submit]') || form.querySelector('button');
-  const attribute = 'data-testid';
-  const attributeValue = 'submit-button';
-  const fieldProperties = {
+const getButton = (form: HTMLFormElement): FieldButtonType =>
+  form.querySelector('input[type=submit]') || form.querySelector('button');
+
+const updateSubmitButton = (form: HTMLFormElement): void => {
+  const field: FieldButtonType = getButton(form);
+  const attribute: string = FieldAttributes.TestId;
+  const attributeValue: string = 'submit-button';
+  const fieldProperties: ButtonFieldPropertiesType = {
     field,
     attribute,
     attributeValue
@@ -106,7 +161,7 @@ const updateSubmitButton = (form) => {
   sessionStorage.lazyCypress += generateTest(fieldProperties).forSubmitButton();
 };
 
-const updateEachField = (field) => {
+const updateEachField = (field: HTMLFormElement): void => {
   if (fieldTypes.includes(field.type) && field.value) {
     updateInput(field);
   } else if (field.type === 'radio' && field.checked) {
@@ -120,9 +175,9 @@ const updateEachField = (field) => {
   }
 };
 
-export const updateFormSessionStorage = (form) => (event) => {
+export const updateFormSessionStorage = (form: HTMLFormElement) => (event: Event): void => {
   if (sessionStorage.lazyCypress) {
-    const hasRemainingTest = sessionStorage.lazyCypress.includes('});');
+    const hasRemainingTest: boolean = sessionStorage.lazyCypress.includes('});');
 
     if (hasRemainingTest) {
       event.preventDefault();
@@ -130,7 +185,7 @@ export const updateFormSessionStorage = (form) => (event) => {
       return;
     }
 
-    const formFields = getFormFields(form);
+    const formFields: HTMLFormElement[] = getFormFields(form);
 
     formFields.forEach(updateEachField);
     updateSubmitButton(form);
