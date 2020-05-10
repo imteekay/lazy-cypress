@@ -1,15 +1,17 @@
 import { updateFormSessionStorage } from './handlers';
 
-export const start = () => {
+export const start = (): void => {
   if (!sessionStorage.lazyCypress) {
     sessionStorage.lazyCypress = `describe('[TODO] add a description here', () => {
   cy.visit('${window.location.pathname}');\n\n`;
   }
 };
 
-export const clean = () => sessionStorage.removeItem('lazyCypress');
+export const clean = (): void => {
+  sessionStorage.removeItem('lazyCypress');
+};
 
-export const copy = () => {
+export const copy = (): void => {
   if (navigator.clipboard) {
     navigator
       .clipboard
@@ -21,8 +23,10 @@ export const copy = () => {
   }
 };
 
-export const addFormSubmitListener = () =>
+export const addFormSubmitListener = (): void => {
   document.addEventListener('DOMContentLoaded', () => {
-    const forms = [...document.getElementsByTagName('form')];
-    forms.forEach((form) => form.addEventListener('submit', updateFormSessionStorage(form)));
+    const formElements: HTMLCollectionOf<HTMLFormElement> = document.getElementsByTagName('form');
+    const forms: HTMLFormElement[] = [...formElements];
+    forms.forEach((form: HTMLFormElement) => form.addEventListener('submit', updateFormSessionStorage(form)));
   });
+};
